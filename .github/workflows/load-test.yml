@@ -1,0 +1,31 @@
+name: K6 load test # Nome do workflow
+on: [push] # Quando será executado, neste caso quando houver um push
+permissions:
+  contents: write # Estamos concedendo permissão de escrita no repositório, assim será possível realizar as ações de publicar o relatóriona branche gh-pages
+jobs: # Trabalhos dentro de um workflow, podem ser definidos vários, como performance, api, e2e etc...
+  build: 
+    name: K6 load test
+    runs-on: ubuntu-latest # SO que a máquina virtual irá utilizar
+    steps:
+      - name: step 1 - checkout
+        uses: actions/checkout@v3 # Realiza o checkout do repositório na máquina virtual, esta é uma ação pré-configuradaa: https://github.com/marketplace?type=actions
+
+      - name: step 2 - run k6 load test
+        uses: grafana/k6-action@v0.2.0 # Ao invés de utilizarmos uma imagem docker, vamos utilizar uma action pré-configurada: https://github.com/marketplace/actions/k6-load-test
+        with: 
+          filename: tests/10-gitHubActions.js # Aqui definimos qual arquivo será executado
+
+      - run: ls & mkdir report & mv index.html report # Listamos os arquivos do diretório, criamos a pasta "report" e movemos o arquivo de relatório para ela
+      
+      - name: step 3 - upload artifact
+        uses: actions/upload-artifact@v3 # Action pré-configurada para upload de artefatos: https://github.com/marketplace/actions/upload-a-build-artifact
+        with: 
+          name: relatorio de testes de performance # Descrição do artefato
+          path: report # Caminho onde está o arquivo de relatório
+      
+      - name: step 4 - publish report # Aqui vamos publicar nosso relatório no github pages, que é um serviço de hospedagem de sites estáticos
+        uses: peaceiris/actions-gh-pages@v3 # Action pré-configurada: https://github.com/peaceiris/actions-gh-pages
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Será buscado automaticamente seu token de usuário, sem necessidade de ação extra além de definir aqui.
+          publish_branch: gh-pages # Em qual branche será publicado
+          publish_dir: report # O que será publicado, neste caso nosso relatório dentro da página report

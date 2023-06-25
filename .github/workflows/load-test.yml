@@ -15,7 +15,7 @@ jobs: # Trabalhos dentro de um workflow, podem ser definidos vários, como perfo
         with: 
           filename: tests/10-gitHubActions.js # Aqui definimos qual arquivo será executado
 
-      - run: ls & mkdir report & mv relatorio.html report # Listamos os arquivos do diretório, criamos a pasta "report" e movemos o arquivo de relatório para ela
+      - run: ls & mkdir report & mv index.html report # Listamos os arquivos do diretório, criamos a pasta "report" e movemos o arquivo de relatório para ela
       
       - name: step 3 - upload artifact
         uses: actions/upload-artifact@v3 # Action pré-configurada para upload de artefatos: https://github.com/marketplace/actions/upload-a-build-artifact

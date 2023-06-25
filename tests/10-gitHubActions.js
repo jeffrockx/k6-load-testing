@@ -23,6 +23,6 @@ export default function () {
 // Na fase de desmontagem adicionamos a função para gerar o relatório que vai receber os dados de saída da fase de execução
 export function handleSummary(data) {
     return {
-        "relatorio.html": htmlReport(data),
+        "index.html": htmlReport(data),
     }
 }

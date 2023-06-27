@@ -13,7 +13,7 @@ jobs: # Trabalhos dentro de um workflow, podem ser definidos vários, como perfo
       - name: step 2 - run k6 load test
         uses: grafana/k6-action@v0.2.0 # Ao invés de utilizarmos uma imagem docker, vamos utilizar uma action pré-configurada: https://github.com/marketplace/actions/k6-load-test
         with: 
-          filename: tests/10-gitHubActions.js # Aqui definimos qual arquivo será executado
+          filename: tests/11-gitHubActions.js # Aqui definimos qual arquivo será executado
 
       - run: ls & mkdir report & mv index.html report # Listamos os arquivos do diretório, criamos a pasta "report" e movemos o arquivo de relatório para ela
       
